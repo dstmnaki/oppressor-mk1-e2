@@ -124,6 +124,7 @@ M1=DRVR:keyPressed("rshift")
 if(changed(DRVR)&DRVR){
     Seat:printDriver("R - Flight mode")
     Seat:printDriver("Alt - Boost")
+    Seat:printDriver("Right Shift - Shoot")
     Seat:printDriver("Arrow UP/DOWN - Tilt up/down (reversed)")
     
 }
