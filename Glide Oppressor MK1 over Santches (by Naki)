@@ -8,6 +8,7 @@ if(first()){
     BaseW=Base:wirelink()
     Seat=BaseW["DriverSeat",entity]
     
+    findIncludePlayerProps(owner())
     findByClass("glide_standalone_turret")
     Turret=find()
     if(Turret){
@@ -15,17 +16,10 @@ if(first()){
         Temp["turretW",wirelink]=Turret:wirelink()
         Turret:propFreeze(1)
         Turret:deparent()
-        
-        local I = 9
-        holoCreate(I)
-        holoPos(I,Turret:pos())
-        holoAng(I,Turret:angles())
-        Turret:parentTo(holoEntity(I))
-        holoPos(I,Base:toWorld(vec(50,0,15)))
-        holoAng(I,Base:toWorld(ang(90,0,0)))
-        holoParent(I,Base)
-        holoScale(I,vec())
+        Turret:setPos(Base:toWorld(vec(50,0,15)))
+        Turret:setAng(Base:toWorld(ang(90,0,0)))
         Turret:setAlpha(0)
+        Turret:parentTo(Base)
         print("TURRET FOUND, PARENTING & WIRING!")
     }else{
         print("TURRET NOT FOUND, IGNORING...")
@@ -125,7 +119,7 @@ interval(100)
 DRVR=Seat:driver()
 R=DRVR:keyReload()
 Alt=DRVR:keyWalk()
-M1=DRVR:keyAttack1()
+M1=DRVR:keyPressed("rshift")
 
 if(changed(DRVR)&DRVR){
     Seat:printDriver("R - Flight mode")
@@ -175,7 +169,4 @@ if(changed(Base:getColor())){
     holoColor(6,Base:getColor())
     holoColor(7,Base:getColor())
     holoColor(8,Base:getColor())
-}
-event removed(Resetting:number) {
-    Base:propDelete()
 }
