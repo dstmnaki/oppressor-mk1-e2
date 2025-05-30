@@ -8,6 +8,28 @@ if(first()){
     BaseW=Base:wirelink()
     Seat=BaseW["DriverSeat",entity]
     
+    findByClass("glide_standalone_turret")
+    Turret=find()
+    if(Turret){
+        Temp["turret",entity]=Turret
+        Temp["turretW",wirelink]=Turret:wirelink()
+        Turret:propFreeze(1)
+        Turret:deparent()
+        
+        local I = 9
+        holoCreate(I)
+        holoPos(I,Turret:pos())
+        holoAng(I,Turret:angles())
+        Turret:parentTo(holoEntity(I))
+        holoPos(I,Base:toWorld(vec(50,0,15)))
+        holoAng(I,Base:toWorld(ang(90,0,0)))
+        holoParent(I,Base)
+        holoScale(I,vec())
+        Turret:setAlpha(0)
+        print("TURRET FOUND, PARENTING & WIRING!")
+    }else{
+        print("TURRET NOT FOUND, IGNORING...")
+    }
     if(Base:type()!="gtav_sanchez"){
         hint("SPAWN ME ON A SANTCHES!",7)
         selfDestruct()
@@ -103,6 +125,7 @@ interval(100)
 DRVR=Seat:driver()
 R=DRVR:keyReload()
 Alt=DRVR:keyWalk()
+M1=DRVR:keyAttack1()
 
 if(changed(DRVR)&DRVR){
     Seat:printDriver("R - Flight mode")
@@ -110,6 +133,8 @@ if(changed(DRVR)&DRVR){
     Seat:printDriver("Arrow UP/DOWN - Tilt up/down (reversed)")
     
 }
+
+Temp["turretW",wirelink]["Fire",number]=M1
 
 if(changed(R)&R){
     Temp["flight",number]=!Temp["flight",number]
@@ -150,4 +175,7 @@ if(changed(Base:getColor())){
     holoColor(6,Base:getColor())
     holoColor(7,Base:getColor())
     holoColor(8,Base:getColor())
+}
+event removed(Resetting:number) {
+    Base:propDelete()
 }
